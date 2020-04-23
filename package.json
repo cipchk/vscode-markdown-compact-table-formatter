@@ -1,0 +1,71 @@
+{
+  "name": "vscode-markdown-compact-table-formatter",
+  "version": "0.0.1",
+  "description": "Format Markdown tables in a compact way / 以紧凑的方式格式化 Markdown 表格",
+  "scripts": {
+    "release": "tsc -p ./ && vsce package",
+    "watch": "tsc -watch -p ./"
+  },
+  "publisher": "cipchk",
+  "license": "MIT",
+  "homepage": "https://github.com/cipchk/vscode-markdown-compact-table-formatter/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cipchk/vscode-markdown-compact-table-formatter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cipchk/vscode-markdown-compact-table-formatter/issues",
+    "email": "cipchk@qq.com"
+  },
+  "keywords": [
+    "vscode",
+    "vscode snippet",
+    "vscode extension",
+    "markdown table",
+    "markdown table formatter"
+  ],
+  "engines": {
+    "vscode": "^1.40.0"
+  },
+  "categories": [
+    "Other",
+    "Formatters"
+  ],
+  "activationEvents": [
+    "onLanguage:markdown"
+  ],
+  "main": "./out/index.js",
+  "icon": "icon.png",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Markdown Inline Table Formatter",
+      "properties": {
+        "vscode-markdown-compact-table-formatter.enable": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable Markdown Inline Table Formatter."
+        },
+        "vscode-markdown-compact-table-formatter.spacePadding": {
+          "type": "boolean",
+          "default": true,
+          "description": "How many spaces between left and right of each column content."
+        },
+        "vscode-markdown-compact-table-formatter.keepFirstAndLastPipes": {
+          "type": "boolean",
+          "default": true,
+          "description": "Keep first and last pipes \"|\" in table formatting. Tables are easier to format when pipes are kept."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.2",
+    "typescript": "^3.8.3",
+    "ts-node": "^8.9.0",
+    "tslint": "^6.1.1",
+    "tslint-config-prettier": "^1.18.0",
+    "vscode": "^1.1.36",
+    "vscode-test": "^1.3.0"
+  }
+}
