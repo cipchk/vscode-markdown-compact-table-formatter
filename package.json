@@ -1,6 +1,7 @@
 {
   "name": "vscode-markdown-compact-table-formatter",
   "version": "0.0.1",
+	"displayName": "Markdown Compact Table Formatter",
   "description": "Format Markdown tables in a compact way / 以紧凑的方式格式化 Markdown 表格",
   "scripts": {
     "release": "tsc -p ./ && vsce package",
