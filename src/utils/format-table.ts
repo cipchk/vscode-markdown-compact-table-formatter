@@ -3,21 +3,20 @@ import { Config } from '../types';
 export function formatTable(str: string, cog: Config): string {
   let table = splitStringToTable(str);
   table = fillInMissingColumns(table);
-  let headerMaxLength: number[] = [];
+  const headerMaxLength: number[] = [];
   return table
-    .map((row: string[], row_index: number) => {
-      const rowStr = row
-        .map((cell, column_index) => {
-          if (row_index === 0) {
-            headerMaxLength[column_index] = cell.length;
-          }
-          const needSpacePadding = cog.keepFirstAndLastPipes && cog.spacePadding;
-          if (row_index === 1) {
-            return padHeaderSeparatorString(cell, headerMaxLength[column_index] + (needSpacePadding ? 2 : 0));
-          }
-          return needSpacePadding ? ` ${cell} ` : cell;
-        })
-        .join('|');
+    .map((row: string[], rowIndex: number) => {
+      const orgRows = row.map((cell, columnIndex) => {
+        if (rowIndex === 0) {
+          headerMaxLength[columnIndex] = cell.length;
+        }
+        const needSpacePadding = cog.keepFirstAndLastPipes && cog.spacePadding;
+        if (rowIndex === 1) {
+          return padHeaderSeparatorString(cell, headerMaxLength[columnIndex] + (needSpacePadding ? 2 : 0));
+        }
+        return needSpacePadding ? ` ${cell} ` : cell;
+      });
+      const rowStr = orgRows.join('|');
       return cog.keepFirstAndLastPipes ? `|${rowStr}|` : rowStr;
     })
     .join('\n');
