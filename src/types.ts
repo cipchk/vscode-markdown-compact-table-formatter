@@ -4,6 +4,10 @@ export interface Config {
    */
   enable: boolean;
   /**
+   * Enable or disable table sorter, can be set 'auto' should be auto sort by first column.
+   */
+  enableSort: boolean | 'auto';
+  /**
    * How many spaces between left and right of each column content.
    */
   spacePadding: boolean;

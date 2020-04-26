@@ -47,6 +47,19 @@
           "default": true,
           "description": "Enable/disable Markdown Inline Table Formatter."
         },
+        "vscode-markdown-compact-table-formatter.enableSort": {
+          "type": [
+            "boolean",
+            "string"
+          ],
+          "enum": [
+            true,
+            false,
+            "auto"
+          ],
+          "default": "true",
+          "description": "Enable or disable table sorter, can be set 'auto' should be auto sort by first column."
+        },
         "vscode-markdown-compact-table-formatter.spacePadding": {
           "type": "boolean",
           "default": true,

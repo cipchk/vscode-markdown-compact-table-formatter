@@ -11,6 +11,7 @@ Uses VSCode `Format Document` and `Format Selection`
 ### Settings & Keybindings
 
 - **enable**: Enable or disable the formatter;
+- **enable**: Enable or disable table sorter, can be set 'auto' should be auto sort by first column;
 - **spacePadding**: How many spaces between left and right of each column content;
 - **keepFirstAndLastPipes**: Keep first and last pipes "|" in table formatting. Tables are easier to format when pipes are kept;
 

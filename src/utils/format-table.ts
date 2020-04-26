@@ -22,7 +22,7 @@ export function formatTable(str: string, cog: Config): string {
     .join('\n');
 }
 
-function splitStringToTable(str: string): string[][] {
+export function splitStringToTable(str: string): string[][] {
   return (
     str
       .trim()

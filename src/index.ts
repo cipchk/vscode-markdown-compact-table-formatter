@@ -1,27 +1,42 @@
 import { Config } from './types';
 import * as vscode from 'vscode';
-import { workspace } from 'vscode';
 import { extractTables } from './utils/extract-tables';
 import { formatTable } from './utils/format-table';
+import { SortCodeLensProvider } from './sorter/code-lens.provider';
 
-function loadConfig(): Config {
-  let config = workspace.getConfiguration('vscode-markdown-compact-table-formatter');
-  return {
-    enable: config.get<boolean>('enable', true),
-    spacePadding: config.get<boolean>('spacePadding', true),
-    keepFirstAndLastPipes: config.get<boolean>('keepFirstAndLastPipes', true),
+let config: Config;
+
+function loadConfig(): void {
+  const _ = vscode.workspace.getConfiguration('vscode-markdown-compact-table-formatter');
+  config = {
+    enable: _.get<boolean>('enable', true),
+    enableSort: _.get<boolean>('enableSort', true),
+    spacePadding: _.get<boolean>('spacePadding', true),
+    keepFirstAndLastPipes: _.get<boolean>('keepFirstAndLastPipes', true),
   };
 }
 
-let cog = loadConfig();
-
-workspace.onDidChangeConfiguration(() => (cog = loadConfig()));
+const sortCodeLensProvider = new SortCodeLensProvider();
 
 export function activate(context: vscode.ExtensionContext) {
+  loadConfig();
+
+  sortCodeLensProvider.register(config);
+
+  vscode.workspace.onDidChangeConfiguration(() => {
+    loadConfig();
+
+    if (config.enableSort === false) {
+      sortCodeLensProvider.dispose();
+    } else {
+      sortCodeLensProvider.register(config);
+    }
+  });
+
   context.subscriptions.push(
     vscode.languages.registerDocumentFormattingEditProvider('markdown', {
       provideDocumentFormattingEdits(document) {
-        if (!cog.enable) {
+        if (!config.enable) {
           return;
         }
 
@@ -36,13 +51,13 @@ export function activate(context: vscode.ExtensionContext) {
         const tables = extractTables(text);
         if (tables) {
           tables.forEach((table) => {
-            var re = new RegExp(
+            const re = new RegExp(
               String(table)
                 .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
                 .replace(/-/g, '\\u002d'),
               'g'
             );
-            text = text.replace(re, () => formatTable(table, cog));
+            text = text.replace(re, () => formatTable(table, config));
           });
           result.push(new vscode.TextEdit(range, text));
         }
@@ -53,4 +68,6 @@ export function activate(context: vscode.ExtensionContext) {
   );
 }
 
-export function deactivate() {}
+export function deactivate() {
+  sortCodeLensProvider.dispose();
+}
