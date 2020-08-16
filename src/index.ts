@@ -1,21 +1,21 @@
 import { Config } from './types';
 import * as vscode from 'vscode';
-import { workspace } from 'vscode';
 import { extractTables } from './utils/extract-tables';
 import { formatTable } from './utils/format-table';
 
 function loadConfig(): Config {
-  let config = workspace.getConfiguration('vscode-markdown-compact-table-formatter');
+  const config = vscode.workspace.getConfiguration('vscode-markdown-compact-table-formatter');
   return {
     enable: config.get<boolean>('enable', true),
     spacePadding: config.get<boolean>('spacePadding', true),
     keepFirstAndLastPipes: config.get<boolean>('keepFirstAndLastPipes', true),
+    emptyPlaceholder: config.get<string>('emptyPlaceholder', '-'),
   };
 }
 
 let cog = loadConfig();
 
-workspace.onDidChangeConfiguration(() => (cog = loadConfig()));
+vscode.workspace.onDidChangeConfiguration(() => (cog = loadConfig()));
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(
@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
         const tables = extractTables(text);
         if (tables) {
           tables.forEach((table) => {
-            var re = new RegExp(
+            const re = new RegExp(
               String(table)
                 .replace(/[|\\{}()[\]^$+*?.]/g, '\\$&')
                 .replace(/-/g, '\\u002d'),
@@ -53,4 +53,5 @@ export function activate(context: vscode.ExtensionContext) {
   );
 }
 
+// tslint:disable-next-line: no-empty
 export function deactivate() {}

@@ -11,4 +11,8 @@ export interface Config {
    * Keep first and last pipes `|` in table formatting. Tables are easier to format when pipes are kept.
    */
   keepFirstAndLastPipes: boolean;
+  /**
+   * The default data when the cell is empty, default: `-`
+   */
+  emptyPlaceholder: string;
 }
